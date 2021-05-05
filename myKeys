@@ -1,0 +1,48 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Fri Nov  6 10:54:33 2020
+
+@author: sysadmin
+"""
+import pandas as pd
+import numpy as np
+import os
+from colored import fg, bg, attr, stylize
+from colors import *
+ 
+path = '/Users/sysadmin/Documents/Syinaesthesia'
+os.chdir(path)
+allColors = pd.read_csv('MyColorsANSI.csv')
+letters = allColors.iloc[:,0]
+uidx = pd.Index(letters)
+ 
+myStr = input()
+
+charColor = list(np.zeros(len(myStr)))
+charColorStr = list(np.zeros(len(myStr)))
+strColorsNum = np.zeros(len(myStr))
+strColors = list(np.zeros(len(myStr)))
+cStr = ''
+s = ''
+x = ''
+for i in range(0, len(myStr)):
+    character = myStr[i]
+    if  (' ' in character) == True:
+        x = (x + (str(color(myStr[i], fg=15))))
+        
+        # print(color(myStr[i], fg=15))
+        continue
+    charPlace= uidx.get_loc(character)
+    charColor[i] = allColors.iloc[charPlace,2]
+    charColorStr[i] = allColors.iloc[charPlace,1]
+    
+    thisColor = fg(charColor[i])
+    thisCnum = int(charColor[i])
+    thisCstr = charColorStr[i] 
+    strColorsNum[i] = thisCnum 
+    strColors[i] = thisCstr
+    x = (x + (str(color(myStr[i], fg=thisCnum))))
+    #print(color(myStr[i],fg=thisCnum))
+    print(x)
+    
